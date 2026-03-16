@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  scroll-padding-top: 56px; /* offset for mobile top navbar */
+}
+
+body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* Hide scrollbar — keeps scroll functionality */
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  background-color: #12121a;
+  color: #f5f5f5;
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Nav link hover underline */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #10b981;
+  transition: width 0.25s ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Toggle pop on click */
+@keyframes toggle-pop {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(0.88); }
+  70%  { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+.toggle-pop {
+  animation: toggle-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Orb float animations */
+@keyframes float-a {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50%       { transform: translateY(-30px) translateX(20px); }
+}
+@keyframes float-b {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50%       { transform: translateY(20px) translateX(-25px); }
+}
+.orb-a { animation: float-a 12s ease-in-out infinite; }
+.orb-b { animation: float-b 15s ease-in-out infinite; }
