@@ -1,73 +1,140 @@
-# React + TypeScript + Vite
+# Michał Maciej — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personal portfolio website built with React, Three.js and TailwindCSS. Features 3D models, interactive animations, a contact form with EmailJS integration, and a fully responsive mobile layout.
 
-Currently, two official plugins are available:
+**Live:** [michalmaciej.com](https://www.michalmaciej.com)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Animated intro** — iPhone 3D model slides in on load with a video playing on the screen, then shrinks into the corner
+- **Interactive 3D Rubik's Cube** — fully functional cube with face rotations, scramble and reset, drag-to-orbit
+- **Interactive chess piece** — 3D chess piece in the Contact section, draggable
+- **Dark / light mode** — smooth curtain transition animation
+- **Contact form** — EmailJS integration, sends directly to inbox with animated send feedback
+- **CV download** — PDF available directly from the contact section
+- **Responsive** — mobile hamburger navbar, stacked layouts on small screens
+- **Scroll animations** — per-element IntersectionObserver with play-once-stay pattern
+- **Lazy Three.js init** — WebGL scenes initialize only when near the viewport
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Sections
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Section | Description |
+|---|---|
+| Hero | Name, cycling role titles, CTA button |
+| About | Overview, bio, interest cards with hover effects |
+| Education | Animated timeline — B.Sc. and M.Sc. |
+| Work | Job cards with responsibilities |
+| Skills | Tech stack chips — ML/AI, Web, Tools |
+| Projects | Project cards with images, tags, GitHub and live links |
+| Contact | EmailJS form + interactive 3D chess piece |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Tech Stack
+
+| Category | Technologies |
+|---|---|
+| Framework | React 18, TypeScript |
+| Build tool | Vite |
+| Styling | TailwindCSS v4 |
+| 3D / WebGL | Three.js, GLTFLoader, RoomEnvironment |
+| Email | EmailJS (`@emailjs/browser`) |
+| 3D Models | Blender (iPhone, chess piece) |
+| Fonts | Syne, Space Grotesk (Google Fonts) |
+
+---
+
+## Project Structure
+
+```
+src/
+├── assets/
+│   ├── models/          # .glb 3D models (iPhone, chess piece)
+│   └── projects/        # Project preview images
+├── components/
+│   ├── IPhoneScene.tsx      # Intro 3D iPhone animation + video screen
+│   ├── Navbar.tsx           # Sidebar (desktop) / hamburger (mobile)
+│   ├── HeroSection.tsx
+│   ├── AboutSection.tsx
+│   ├── EducationSection.tsx
+│   ├── WorkSection.tsx
+│   ├── SkillsSection.tsx
+│   ├── RubiksCubeSection.tsx
+│   ├── ProjectsSection.tsx
+│   ├── ContactSection.tsx   # EmailJS form + chess canvas
+│   ├── BackgroundScene.tsx  # Floating orb background
+│   └── LoadingScreen.tsx
+├── hooks/
+│   └── useIsMobile.ts       # Responsive breakpoint hook
+├── App.tsx
+└── index.css
+public/
+├── hello.mp4               # Intro screen video
+├── mess.mp4                # Secondary screen video (2x speed)
+├── aparat.PNG              # Final screen image
+└── michal_maciej_CV.pdf
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Getting Started
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Prerequisites
+
+- Node.js 18+
+- npm
+
+### Install dependencies
+
+```bash
+npm install
 ```
+
+### Run development server
+
+```bash
+npm run dev
+```
+
+### Build for production
+
+```bash
+npm run build
+```
+
+Output goes to `dist/`. Upload the contents of `dist/` along with files from `public/` to your web server.
+
+### Preview production build
+
+```bash
+npm run preview
+```
+
+---
+
+## Deployment (Hostinger / Apache)
+
+Upload the contents of `dist/` to `public_html`. Also upload the files from `public/` (videos, PDF, images). Add a `.htaccess` file to handle SPA routing:
+
+```apache
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+```
+
+---
+
+## Contact
+
+- **Email:** mich.kowa.01@gmail.com
+- **Website:** [michalmaciej.com](https://www.michalmaciej.com)
+- **GitHub:** [github.com/Michalmaciej](https://github.com/Michalmaciej)
